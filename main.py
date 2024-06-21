@@ -1,16 +1,15 @@
 import asyncio
 from contextlib import asynccontextmanager
+from typing import Annotated
 
 from playwright.async_api import Playwright, async_playwright
 
 from database.base import User, create_db_and_tables
-from scrapper.hypotec import get_website_content, get_website_content2
+from scrapper.hypotec import get_website_mortgage_result_table, MortgageInputData
 from users.schemas import UserCreate, UserRead, UserUpdate
 from users.users import auth_backend, current_active_user, fastapi_users_ep
 from fastapi import FastAPI, Depends
 import uvicorn
-
-
 
 
 @asynccontextmanager
@@ -33,13 +32,14 @@ app.include_router(fastapi_users_ep.get_users_router(UserRead, UserUpdate), pref
 
 @app.get("/authenticated-route")
 async def authenticated_route(user: User = Depends(current_active_user)):
-    await get_website_content()
+    await get_website_mortgage_result_table()
     return {"message": f"Hello {user.email}!"}
 
 
-@app.get("/scrap", tags=["scrapping"])
-async def scrap():
-    await get_website_content2()
+@app.post("/scrap", tags=["scrapping"])
+async def scrap(mortgage_data: MortgageInputData, user: User = Depends(current_active_user)):
+    result = await get_website_mortgage_result_table(mortgage_data)
+    return result
 
 
 if __name__ == '__main__':
