@@ -1,15 +1,12 @@
-import asyncio
 from contextlib import asynccontextmanager
-from typing import Annotated
 
-from playwright.async_api import Playwright, async_playwright
-
-from database.base import User, create_db_and_tables
-from scrapper.hypotec import get_website_mortgage_result_table, MortgageInputData
-from users.schemas import UserCreate, UserRead, UserUpdate
-from users.users import auth_backend, current_active_user, fastapi_users_ep
-from fastapi import FastAPI, Depends
 import uvicorn
+from fastapi import FastAPI
+
+from database.base import create_db_and_tables
+from database.schemas.user_schemas import UserCreate, UserRead, UserUpdate
+from scrapper.endpoints import mortgage_router
+from users.users import auth_backend, fastapi_users_ep
 
 
 @asynccontextmanager
@@ -28,18 +25,7 @@ app.include_router(fastapi_users_ep.get_register_router(UserRead, UserCreate), p
 app.include_router(fastapi_users_ep.get_reset_password_router(), prefix="/auth", tags=["auth"])
 app.include_router(fastapi_users_ep.get_verify_router(UserRead), prefix="/auth", tags=["auth"])
 app.include_router(fastapi_users_ep.get_users_router(UserRead, UserUpdate), prefix="/auth", tags=["auth"])
-
-
-@app.get("/authenticated-route")
-async def authenticated_route(user: User = Depends(current_active_user)):
-    await get_website_mortgage_result_table()
-    return {"message": f"Hello {user.email}!"}
-
-
-@app.post("/scrap", tags=["scrapping"])
-async def scrap(mortgage_data: MortgageInputData, user: User = Depends(current_active_user)):
-    result = await get_website_mortgage_result_table(mortgage_data)
-    return result
+app.include_router(router=mortgage_router,prefix="/scrap", tags=["scraping"])
 
 
 if __name__ == '__main__':

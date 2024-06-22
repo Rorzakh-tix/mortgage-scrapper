@@ -5,7 +5,8 @@ from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import BearerTransport, AuthenticationBackend, JWTStrategy
 from fastapi_users.db import SQLAlchemyUserDatabase
 
-from database.base import User, get_user_db
+from database.base import User
+from database.crud.user_crud import get_user_db
 
 SECRET = "SECRET_PHRASE"
 
@@ -46,7 +47,6 @@ auth_backend = AuthenticationBackend(
     transport=bearer_transport,
     get_strategy=get_jwt_strategy,
 )
-
 
 fastapi_users_ep = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 
