@@ -2,8 +2,7 @@ import boto3
 import os
 from botocore.client import Config
 
-secret_key = "A9CEduT7MAuu9apQxcwYuHFgb31jaP38ON3o2XOn"
-access_key = "5MUhwlns4JqHAMd3ffJt"
+from s3.secret import access_key, secret_key
 
 s3 = boto3.resource('s3',
                     endpoint_url='https://erdgpl.stackhero-network.com',
