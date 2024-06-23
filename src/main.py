@@ -3,10 +3,10 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 
-from database.base import create_db_and_tables
-from database.schemas.user_schemas import UserCreate, UserRead, UserUpdate
-from scrapper.endpoints import mortgage_router
-from users.users import auth_backend, fastapi_users_ep
+from src.database.base import create_db_and_tables
+from src.database.schemas.user_schemas import UserCreate, UserRead, UserUpdate
+from src.scrapper.endpoints import mortgage_router
+from src.users.users import auth_backend, fastapi_users_ep
 
 
 @asynccontextmanager

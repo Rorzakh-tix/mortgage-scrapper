@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 
-from database.crud.mortgage_crud import create_mortgage_calculation
-from database.models import User
-from database.schemas.mortgage_schemas import MortgageCreate
-from s3.minio import upload_file_to_s3
-from scrapper.mortgage import MortgageInputData, get_website_mortgage_result_table
-from users.users import current_active_user
+from src.database.crud.mortgage_crud import create_mortgage_calculation
+from src.database.models import User
+from src.database.schemas.mortgage_schemas import MortgageCreate
+from src.s3.minio import upload_file_to_s3
+from src.scrapper.mortgage import MortgageInputData, get_website_mortgage_result_table
+from src.users.users import current_active_user
 
 mortgage_router = APIRouter(
 )
@@ -25,4 +25,4 @@ async def scrap(mortgage_data: MortgageInputData, user: User = Depends(
 async def upload_to_s3(user: User = Depends(
     current_active_user
 )):
-    await upload_file_to_s3('page.pdf', str(user.id), 'payments_results.pdf')
+    await upload_file_to_s3('page.pdf', "pdf-payments", f"{str(user.id)}payments_results.pdf")

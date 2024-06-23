@@ -1,19 +1,18 @@
 from typing import AsyncGenerator
 
-from fastapi import Depends
-from fastapi_users.db import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from database.models.base_model import Base
-from database.models.user_model import User
+from config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
+from src.database.models.base_model import Base
+# from src.config import settings
 
-# from database.config import settings
-DATABASE_URL = "postgresql+asyncpg://postgres:passwd@localhost:5433/mortgagedb"
+# DATABASE_URL = "postgresql+asyncpg://postgres:passwd@localhost:5433/mortgagedb"
+DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
+# DB_URL= settings.DB_URL
 
 engine = create_async_engine(
-    DATABASE_URL,
-    pool_pre_ping=True
+    DATABASE_URL
 )
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 

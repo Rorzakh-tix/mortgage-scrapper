@@ -1,6 +1,6 @@
-from database.base import async_session_maker
-from database.models import MortgageOrm
-from database.schemas.mortgage_schemas import MortgageCreate
+from src.database.base import async_session_maker
+from src.database.models import MortgageOrm
+from src.database.schemas.mortgage_schemas import MortgageCreate
 
 
 async def create_mortgage_calculation(

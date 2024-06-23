@@ -1,13 +1,12 @@
 import boto3
-import os
 from botocore.client import Config
 
-from s3.secret import access_key, secret_key
+from src.config import AWS_ACCESS, AWS_SECRET
 
 s3 = boto3.resource('s3',
                     endpoint_url='https://erdgpl.stackhero-network.com',
-                    aws_access_key_id=access_key,
-                    aws_secret_access_key=secret_key,
+                    aws_access_key_id=AWS_ACCESS,
+                    aws_secret_access_key=AWS_SECRET,
                     config=Config(signature_version='s3v4'),
                     region_name='us-east-1',
                     )

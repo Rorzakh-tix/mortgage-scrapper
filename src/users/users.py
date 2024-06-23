@@ -3,10 +3,10 @@ from typing import Optional
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import BearerTransport, AuthenticationBackend, JWTStrategy
-from fastapi_users.db import SQLAlchemyUserDatabase
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
-from database.base import User
-from database.crud.user_crud import get_user_db
+from src.database.crud.user_crud import get_user_db
+from src.database.models import User
 
 SECRET = "SECRET_PHRASE"
 

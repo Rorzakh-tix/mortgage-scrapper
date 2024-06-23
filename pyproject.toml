@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+pythonpath = [
+    ".", "src",
+]
+env_files = [".test.env"]
+asyncio_mode="auto"
