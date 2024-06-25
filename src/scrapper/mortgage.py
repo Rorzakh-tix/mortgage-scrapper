@@ -45,7 +45,8 @@ async def get_website_mortgage_result_table(mortgage_data: MortgageInputData) ->
         url = "https://www.sravni.ru/ipoteka/kalkuljator-ipoteki/"
         browser = await p.chromium.launch(headless=False, slow_mo=300)
         context = await browser.new_context(ignore_https_errors=True,
-                                            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36")
+                                            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                                                       "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36")
         page = await context.new_page()
         print(f"Goto {url}")
         await page.goto(url)
