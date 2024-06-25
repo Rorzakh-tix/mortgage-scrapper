@@ -6,8 +6,6 @@ from pydantic import field_validator, SecretStr
 from pydantic_core.core_schema import ValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-AWS_SECRET = os.environ.get("AWS_SECRET")
-AWS_ACCESS = os.environ.get("AWS_ACCESS")
 
 class DBSettings(BaseSettings):
     PGHOST: str
@@ -25,7 +23,7 @@ class DBSettings(BaseSettings):
         return f'postgresql+asyncpg://{user}:{password.get_secret_value()}@{server}/{db}'
 
     model_config = SettingsConfigDict(
-        env_file='.env',
+        env_file='../../.env',
         frozen=True,
         extra='ignore',
     )
