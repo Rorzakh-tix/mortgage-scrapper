@@ -4,7 +4,7 @@ from botocore.client import Config
 from src.config import AWS_ACCESS, AWS_SECRET
 
 s3 = boto3.resource('s3',
-                    endpoint_url='https://erdgpl.stackhero-network.com',
+                    endpoint_url='https://0trs2u.stackhero-network.com',
                     aws_access_key_id=AWS_ACCESS,
                     aws_secret_access_key=AWS_SECRET,
                     config=Config(signature_version='s3v4'),

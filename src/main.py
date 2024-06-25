@@ -12,7 +12,6 @@ from src.users.users import auth_backend, fastapi_users_ep
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # before starting
-    # db connection etc
     await create_db_and_tables()
     yield
     #

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from src.database.crud.mortgage_crud import create_mortgage_calculation
-from src.database.models import User
+from database.models.user_model import User
+from src.database.crud.mortgage_crud import add_mortgage_calculation
 from src.database.schemas.mortgage_schemas import MortgageCreate
 from src.s3.minio import upload_file_to_s3
 from src.scrapper.mortgage import MortgageInputData, get_website_mortgage_result_table
@@ -18,7 +18,7 @@ async def scrap(mortgage_data: MortgageInputData, user: User = Depends(
     result = await get_website_mortgage_result_table(mortgage_data)
     # add data to db
     mortgage_in = MortgageCreate(payments=result, user_id=user.id)
-    return await create_mortgage_calculation(mortgage_in=mortgage_in)
+    return await add_mortgage_calculation(mortgage_in=mortgage_in)
 
 
 @mortgage_router.get("/upload")

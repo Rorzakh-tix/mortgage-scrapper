@@ -1,9 +1,9 @@
+from database.models.mortgage_model import MortgageOrm
 from src.database.base import async_session_maker
-from src.database.models import MortgageOrm
 from src.database.schemas.mortgage_schemas import MortgageCreate
 
 
-async def create_mortgage_calculation(
+async def add_mortgage_calculation(
         mortgage_in: MortgageCreate
 ) -> MortgageOrm:
     async with async_session_maker() as session:
