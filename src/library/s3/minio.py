@@ -1,7 +1,7 @@
 import boto3
 from botocore.client import Config
 
-from library.minio_aws.minio_config import AWS_ACCESS, AWS_SECRET
+from library.s3.minio_config import AWS_ACCESS, AWS_SECRET
 
 s3 = boto3.resource('s3',
                     endpoint_url='https://0trs2u.stackhero-network.com',

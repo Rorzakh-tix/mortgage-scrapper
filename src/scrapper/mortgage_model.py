@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey, ARRAY
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
-from library.database.models.base_model import Base
+from library.database.base_model import Base
 
 
 class Mortgage(Base):

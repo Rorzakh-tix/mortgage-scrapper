@@ -1,4 +1,4 @@
-from src.scrapper.mortgage import get_website_mortgage_result_table, MortgageInputData
+from src.scrapper.mortgage_scrapper import get_website_mortgage_result_table, MortgageInputData
 
 
 async def test_mortgage_scrap():

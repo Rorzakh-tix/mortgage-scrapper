@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 
 from library.database.database_config import create_db_settings
 from library.database.database import async_session_maker
-from library.database.models.base_model import Base
+from library.database.base_model import Base
 from main import app
 
 settings = create_db_settings()

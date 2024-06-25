@@ -1,7 +1,7 @@
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
 from sqlalchemy.orm import Mapped, relationship
 
-from library.database.models.base_model import Base
+from library.database.base_model import Base
 from scrapper.mortgage_model import Mortgage
 
 

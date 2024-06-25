@@ -2,7 +2,7 @@ from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from library.database.database_config import create_db_settings
-from library.database.models.base_model import Base
+from library.database.base_model import Base
 
 settings = create_db_settings()
 

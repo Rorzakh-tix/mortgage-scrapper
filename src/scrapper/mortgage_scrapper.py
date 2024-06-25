@@ -13,20 +13,23 @@ class MortgageInputData(BaseModel):
     loanRate: Annotated[float, Field(gt=0, le=20, default=10)]
 
 
+user_agent = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+              'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 '
+              'Safari/537.36')
+url_to_scrap = "https://www.sravni.ru/ipoteka/kalkuljator-ipoteki/"
+
+
 async def get_website_mortgage_result_table(mortgage_data: MortgageInputData) -> List[Dict[str, any]]:
     async with async_playwright() as p:
-        url = "https://www.sravni.ru/ipoteka/kalkuljator-ipoteki/"
+        url = url_to_scrap
         browser = await p.chromium.launch(headless=False, slow_mo=300)
-        context = await browser.new_context(ignore_https_errors=True,
-                                            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                                                       "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36")
-        page = await context.new_page()
-        print(f"Goto {url}")
-        await page.goto(url)
-        page = await _fill_mortgage_calc_fields(page, mortgage_data)
-        paymentsDictList = await _get_table_from_page_content(page)
-        await _get_result_page_pdf(page)
-        await context.close()
+        async with await browser.new_context(ignore_https_errors=True,
+                                             user_agent=user_agent) as context:
+            page = await context.new_page()
+            await page.goto(url)
+            page = await _fill_mortgage_calc_fields(page, mortgage_data)
+            paymentsDictList = await _get_table_from_page_content(page)
+            await _get_result_page_pdf(page)
         return paymentsDictList
 
 

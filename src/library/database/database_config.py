@@ -23,7 +23,7 @@ class DBSettings(BaseSettings):
         return f'postgresql+asyncpg://{user}:{password.get_secret_value()}@{server}/{db}'
 
     model_config = SettingsConfigDict(
-        env_file='../../.env',
+        env_file='.env',
         frozen=True,
         extra='ignore',
     )

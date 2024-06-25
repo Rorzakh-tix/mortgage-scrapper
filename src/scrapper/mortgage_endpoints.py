@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 
 from library.database.database import async_session_maker
-from library.minio_aws.minio import upload_file_to_s3
+from library.s3.minio import upload_file_to_s3
 from scrapper.mortgage_model import Mortgage
 from users.user_model import User
-from src.scrapper.mortgage import MortgageInputData, get_website_mortgage_result_table
+from src.scrapper.mortgage_scrapper import MortgageInputData, get_website_mortgage_result_table
 from src.users.user_manager import current_active_user
 
 mortgage_router = APIRouter(
