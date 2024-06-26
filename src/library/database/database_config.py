@@ -6,8 +6,6 @@ from pydantic import field_validator, SecretStr
 from pydantic_core.core_schema import ValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-AWS_SECRET = os.environ.get("AWS_SECRET")
-AWS_ACCESS = os.environ.get("AWS_ACCESS")
 
 class DBSettings(BaseSettings):
     PGHOST: str

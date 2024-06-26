@@ -5,16 +5,17 @@ from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import BearerTransport, AuthenticationBackend, JWTStrategy
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
-from database.models.user_model import User
-from src.database.crud.user_crud import get_user_db
+from users.user_model import User
+from users.user_crud import get_user_db
 
+import os
 
-SECRET = "SECRET_PHRASE"
+JWT_SECRET = os.environ.get("JWT_SECRET")
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
-    reset_password_token_secret = SECRET
-    verification_token_secret = SECRET
+    reset_password_token_secret = JWT_SECRET
+    verification_token_secret = JWT_SECRET
 
     async def on_after_register(
             self, user: User, request: Optional[Request] = None
@@ -40,7 +41,7 @@ bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
+    return JWTStrategy(secret=JWT_SECRET, lifetime_seconds=3600)
 
 
 auth_backend = AuthenticationBackend(
@@ -52,4 +53,3 @@ auth_backend = AuthenticationBackend(
 fastapi_users_ep = FastAPIUsers[User, uuid.UUID](get_user_manager, [auth_backend])
 
 current_active_user = fastapi_users_ep.current_user(active=True)
-

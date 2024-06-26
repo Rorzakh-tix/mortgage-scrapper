@@ -1,8 +1,8 @@
 from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from config import create_db_settings
-from src.database.models.base_model import Base
+from library.database.database_config import create_db_settings
+from library.database.base_model import Base
 
 settings = create_db_settings()
 
