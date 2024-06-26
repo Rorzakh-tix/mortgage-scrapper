@@ -10,6 +10,7 @@ from library.database.database import async_session_maker
 from library.database.base_model import Base
 from main import app
 
+
 settings = create_db_settings()
 
 engine_test = create_async_engine(
@@ -19,10 +20,11 @@ engine_test = create_async_engine(
 )
 
 async_session_maker_test = async_sessionmaker(engine_test, class_=AsyncSession, expire_on_commit=False)
+client = AsyncClient(transport=ASGITransport(app=app), base_url="http://test")
 
 
-@pytest.fixture(scope="session")
-async def session():
+@pytest.fixture(autouse=True, scope="session")
+async def setup_database():
     async with engine_test.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
@@ -31,19 +33,14 @@ async def session():
         await conn.run_sync(Base.metadata.drop_all)
 
 
-async def override_get_async_session():
-    async with async_session_maker_test() as session:
-        yield session
-
-
-app.dependency_overrides[async_session_maker] = override_get_async_session
-
-
-@pytest.fixture(scope='function')
+@pytest.fixture(autouse=True, scope='session')
 def event_loop(request):
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
 
 
-client = AsyncClient(transport=ASGITransport(app=app), base_url="http://test")
+@pytest.fixture(scope="function")
+async def session():
+    async with async_session_maker_test() as session:
+        yield session

@@ -4,14 +4,14 @@ from library.database.database import async_session_maker
 from library.s3.minio import upload_file_to_s3
 from scrapper.mortgage_model import Mortgage
 from users.user_model import User
-from src.scrapper.mortgage_scrapper import MortgageInputData, get_website_mortgage_result_table
-from src.users.user_manager import current_active_user
+from scrapper.mortgage_scrapper import MortgageInputData, get_website_mortgage_result_table
+from users.user_manager import current_active_user
 
 mortgage_router = APIRouter(
 )
 
 
-@mortgage_router.post("/")
+@mortgage_router.post("/scrap")
 async def scrap(mortgage_data: MortgageInputData, user: User = Depends(
     current_active_user
 )):

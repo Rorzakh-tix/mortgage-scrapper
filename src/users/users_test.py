@@ -1,10 +1,9 @@
 import jwt
 import pytest
 
-from src.users.user_manager import JWT_SECRET
-
-from src.conftests import session, client, async_session_maker_test
-from src.users.user_model import User
+from conftests import client, async_session_maker_test, session, setup_database, event_loop
+from users.user_manager import JWT_SECRET
+from users.user_model import User
 
 
 @pytest.mark.asyncio
@@ -44,6 +43,5 @@ async def test_login(session):
         decoded_token = jwt.decode(data["access_token"], JWT_SECRET, algorithms=["HS256"],
                                    audience="fastapi-users:auth")
         userid_test = decoded_token['sub']
-        print(decoded_token)
         db_user = await session.get(User, userid_test)
         assert userid_test == str(db_user.id)
